@@ -1,0 +1,9 @@
+/assets
+/pgdata
+.env
+
+
+.DS_Store
+/build
+/coverage
+

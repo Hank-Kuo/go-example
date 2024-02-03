@@ -1,0 +1,41 @@
+server:
+  host: ${HOST}
+  port: ${PORT}
+  debug: ${DEBUG}
+  readTimeout: 5
+  writeTimeout: 5
+  contextTimeout: 5
+  timezone: UTC
+
+
+database:
+  adapter: "postgres"
+  host: ${POSTGRES_HOST}
+  username: ${POSTGRES_USER}
+  password: ${POSTGRES_PASSWORD}
+  db: ${POSTGRES_DATABASE}
+  port: 5432
+  maxConns: 20
+  maxLiftimeConns: 7200
+
+logger:
+  development: false
+  disableCaller: false
+  disableStacktrace: false
+  encoding: json
+  level: info
+  filename: assets/access.log
+  fileMaxSize: 10
+  fileMaxAge: 30
+  fileMaxBackups: 5
+  fileIsCompress: false
+
+jaeger:
+  host: ${JAEGER_HOST}
+  port: 14268
+  serviceName: chat-app
+  logSpans: true
+
+metric:
+  url: "localhost:7070"
+  serviceName: go-example
