@@ -1,7 +1,7 @@
 package tracer
 
 import (
-	"go-example/config"
+	"github.com/Hank-Kuo/go-example/config"
 
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/jaeger"
@@ -24,7 +24,6 @@ func NewJaeger(cfg *config.Config) (*tracesdk.TracerProvider, error) {
 		tracesdk.WithResource(resource.NewWithAttributes(
 			semconv.SchemaURL,
 			semconv.ServiceNameKey.String(cfg.Jaeger.ServiceName),
-			// semconv.ServiceVersionKey.String(version.Version),
 		)),
 	)
 

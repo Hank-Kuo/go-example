@@ -1,11 +1,11 @@
 package http
 
 import (
-	"go-example/config"
-	"go-example/pkg/logger"
+	"github.com/Hank-Kuo/go-example/config"
+	"github.com/Hank-Kuo/go-example/pkg/logger"
 
 	"github.com/gin-gonic/gin"
-	// "github.com/penglongli/gin-metrics/ginmetrics"
+	"github.com/penglongli/gin-metrics/ginmetrics"
 )
 
 type Middleware struct {
@@ -23,12 +23,12 @@ func NewGlobalMiddlewares(engine *gin.Engine) {
 	engine.NoRoute(httpNotFound)
 	Healthz(engine)
 
-	// m := ginmetrics.GetMonitor()
+	m := ginmetrics.GetMonitor()
 
-	// m.SetMetricPath("/metrics")
-	// m.SetSlowTime(5)
-	// m.SetDuration([]float64{0.1, 0.3, 1.2, 5, 10})
+	m.SetMetricPath("/metrics")
+	m.SetSlowTime(5)
+	m.SetDuration([]float64{0.1, 0.3, 1.2, 5, 10})
 
-	// m.Use(engine)
+	m.Use(engine)
 
 }

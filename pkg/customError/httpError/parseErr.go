@@ -9,8 +9,6 @@ import (
 	"net/http"
 	"strings"
 
-	"go-example/pkg/customError"
-
 	"github.com/go-playground/validator/v10"
 	"github.com/lib/pq"
 )
@@ -35,11 +33,6 @@ func ParseError(err error) *Err {
 	switch {
 	case errors.Is(err, context.DeadlineExceeded):
 		return NewRequestTimeoutError(err)
-	case errors.Is(err, customError.ErrExpiredJWTError):
-		return &Err{
-			Status: http.StatusUnauthorized, Message: customError.ErrExpiredJWTError.Error(),
-		}
-
 	case strings.Contains(err.Error(), "Field validation"):
 		return parseValidatorError(err)
 	case strings.Contains(err.Error(), "unmarshal"):
@@ -59,6 +52,7 @@ func ParseError(err error) *Err {
 func parseValidatorError(err error) *Err {
 	var ve validator.ValidationErrors
 	errMessage := "The Field: "
+
 	if errors.As(err, &ve) {
 		for i, fe := range ve {
 			if i == len(ve)-1 {

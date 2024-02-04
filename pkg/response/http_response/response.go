@@ -3,16 +3,16 @@ package http_response
 import (
 	"github.com/gin-gonic/gin"
 
-	"go-example/pkg/customError/httpError"
-	"go-example/pkg/logger"
+	"github.com/Hank-Kuo/go-example/pkg/customError/httpError"
+	"github.com/Hank-Kuo/go-example/pkg/logger"
 )
 
 type response struct {
 	StatusCode int
-	Body       *responseBody
+	Body       *ResponseBody
 }
 
-type responseBody struct {
+type ResponseBody struct {
 	Status  string      `json:"status"`
 	Message string      `json:"message"`
 	Data    interface{} `json:"data,omitempty"`
@@ -21,7 +21,7 @@ type responseBody struct {
 func OK(statusCode int, message string, data interface{}) *response {
 	return &response{
 		statusCode,
-		&responseBody{Status: "success", Message: message, Data: data},
+		&ResponseBody{Status: "success", Message: message, Data: data},
 	}
 }
 
@@ -32,7 +32,7 @@ func Fail(err error, logger logger.Logger) *response {
 	}
 	return &response{
 		parseErr.GetStatus(),
-		&responseBody{Status: "fail", Message: parseErr.GetMessage()},
+		&ResponseBody{Status: "fail", Message: parseErr.GetMessage()},
 	}
 }
 

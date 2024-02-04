@@ -9,7 +9,7 @@ import (
 	_ "github.com/lib/pq"
 	_ "github.com/mattn/go-sqlite3"
 
-	"go-example/config"
+	"github.com/Hank-Kuo/go-example/config"
 )
 
 func ConnectDB(cfg *config.DatabaseConfig) (*sqlx.DB, error) {
@@ -27,11 +27,10 @@ func ConnectDB(cfg *config.DatabaseConfig) (*sqlx.DB, error) {
 
 func connectSqlite3(cfg *config.DatabaseConfig) (*sqlx.DB, error) {
 	return sqlx.Open("sqlite3", cfg.Host)
-
 }
 
 func connectMySQL(cfg *config.DatabaseConfig) (*sqlx.DB, error) {
-	setting := fmt.Sprintf("%s:%s@tcp(%s):%d/%s", cfg.Username, cfg.Password, cfg.Host, cfg.Port, cfg.Db)
+	setting := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", cfg.Username, cfg.Password, cfg.Host, cfg.Port, cfg.Db)
 	return sqlx.Open("mysql", setting)
 }
 

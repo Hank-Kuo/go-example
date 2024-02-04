@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"go-example/pkg/customError"
+	"github.com/Hank-Kuo/go-example/pkg/customError"
 )
 
 type Err struct {

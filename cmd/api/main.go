@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"log"
 
-	"go-example/config"
-	"go-example/internal/server"
-	"go-example/pkg/database"
-	"go-example/pkg/logger"
-	"go-example/pkg/tracer"
+	"github.com/Hank-Kuo/go-example/config"
+	"github.com/Hank-Kuo/go-example/internal/server"
+	"github.com/Hank-Kuo/go-example/pkg/database"
+	"github.com/Hank-Kuo/go-example/pkg/logger"
+	"github.com/Hank-Kuo/go-example/pkg/tracer"
 )
 
 func main() {

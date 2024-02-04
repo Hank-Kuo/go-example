@@ -4,12 +4,15 @@ import (
 	"net/http"
 	"time"
 
-	taskDelivery "go-example/internal/api/delivery/task"
-	taskRepository "go-example/internal/api/repository/task"
-	taskService "go-example/internal/api/service/task"
-	http_middleware "go-example/internal/middleware/http"
+	taskDelivery "github.com/Hank-Kuo/go-example/internal/api/delivery/task"
+	taskRepository "github.com/Hank-Kuo/go-example/internal/api/repository/task"
+	taskService "github.com/Hank-Kuo/go-example/internal/api/service/task"
+	http_middleware "github.com/Hank-Kuo/go-example/internal/middleware/http"
 
+	_ "github.com/Hank-Kuo/go-example/docs"
 	"github.com/gin-gonic/gin"
+	"github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger"
 )
 
 func (s *Server) registerHttpHanders(engine *gin.Engine) {
@@ -29,6 +32,9 @@ func (s *Server) newHttpServer() *http.Server {
 	}
 
 	engine := gin.Default()
+	if s.cfg.Server.Debug {
+		engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	}
 	http_middleware.NewGlobalMiddlewares(engine)
 
 	s.registerHttpHanders(engine)

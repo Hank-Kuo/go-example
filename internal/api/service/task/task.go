@@ -3,20 +3,23 @@ package task
 import (
 	"context"
 
-	"go-example/config"
-	taskRepo "go-example/internal/api/repository/task"
-	"go-example/internal/models"
-	"go-example/pkg/logger"
-	"go-example/pkg/tracer"
+	"github.com/Hank-Kuo/go-example/config"
+	taskRepo "github.com/Hank-Kuo/go-example/internal/api/repository/task"
+	"github.com/Hank-Kuo/go-example/internal/dto"
+	"github.com/Hank-Kuo/go-example/internal/models"
+	"github.com/Hank-Kuo/go-example/pkg/customError"
+	"github.com/Hank-Kuo/go-example/pkg/logger"
+	"github.com/Hank-Kuo/go-example/pkg/tracer"
+	"github.com/Hank-Kuo/go-example/pkg/utils"
 
 	"github.com/pkg/errors"
 )
 
 type Service interface {
-	GetAll(ctx context.Context) ([]*models.Task, error)
+	GetAll(ctx context.Context, query *dto.TaskGetAllQueryDto) (*dto.TaskGetAllResDto, error)
 	Get(ctx context.Context, taskID int) (*models.Task, error)
-	Create(ctx context.Context, task *models.Task) error
-	Update(ctx context.Context, taskID int, name string, status int) error
+	Create(ctx context.Context, task *models.Task) (*models.Task, error)
+	Update(ctx context.Context, taskID int, name string, status int) (*models.Task, error)
 	Delete(ctx context.Context, taskID int) error
 }
 
@@ -34,16 +37,34 @@ func NewService(cfg *config.Config, taskRepo taskRepo.Repository, logger logger.
 	}
 }
 
-func (srv *taskSrv) GetAll(ctx context.Context) ([]*models.Task, error) {
+func (srv *taskSrv) GetAll(ctx context.Context, query *dto.TaskGetAllQueryDto) (*dto.TaskGetAllResDto, error) {
 	c, span := tracer.NewSpan(ctx, "TaskService.GetAll", nil)
 	defer span.End()
 
-	tasks, err := srv.taskRepo.GetAll(c)
+	cursor, err := utils.DecodeCursor("task_id", query.Cursor)
+	if err != nil {
+		tracer.AddSpanError(span, err)
+		return nil, customError.ErrBadQueryParams
+	}
+
+	tasks, err := srv.taskRepo.GetAll(c, cursor, query.Limit+1)
 	if err != nil {
 		tracer.AddSpanError(span, err)
 		return nil, errors.Wrap(err, "TaskService.GetAll")
 	}
-	return tasks, nil
+
+	// update tasks & add nextCursor
+	var nextCursor string
+	if len(tasks) > query.Limit {
+		nextCursor = utils.EncodeCursor("task_id", tasks[query.Limit].ID)
+		tasks = tasks[:query.Limit]
+	}
+
+	return &dto.TaskGetAllResDto{
+		Tasks:      tasks,
+		NextCursor: nextCursor,
+	}, nil
+
 }
 
 func (srv *taskSrv) Get(ctx context.Context, taskID int) (*models.Task, error) {
@@ -58,30 +79,30 @@ func (srv *taskSrv) Get(ctx context.Context, taskID int) (*models.Task, error) {
 	return task, nil
 }
 
-func (srv *taskSrv) Create(ctx context.Context, task *models.Task) error {
+func (srv *taskSrv) Create(ctx context.Context, task *models.Task) (*models.Task, error) {
 	c, span := tracer.NewSpan(ctx, "TaskService.Create", nil)
 	defer span.End()
 
-	err := srv.taskRepo.Create(c, task)
+	t, err := srv.taskRepo.Create(c, task)
 	if err != nil {
 		tracer.AddSpanError(span, err)
-		return errors.Wrap(err, "TaskService.Create")
+		return nil, errors.Wrap(err, "TaskService.Create")
 	}
 
-	return nil
+	return t, nil
 }
 
-func (srv *taskSrv) Update(ctx context.Context, taskID int, name string, status int) error {
+func (srv *taskSrv) Update(ctx context.Context, taskID int, name string, status int) (*models.Task, error) {
 	c, span := tracer.NewSpan(ctx, "TaskService.Update", nil)
 	defer span.End()
 
-	err := srv.taskRepo.Update(c, taskID, name, status)
+	t, err := srv.taskRepo.Update(c, taskID, name, status)
 	if err != nil {
 		tracer.AddSpanError(span, err)
-		return errors.Wrap(err, "TaskService.Update")
+		return nil, errors.Wrap(err, "TaskService.Update")
 	}
 
-	return nil
+	return t, nil
 }
 
 func (srv *taskSrv) Delete(ctx context.Context, taskID int) error {

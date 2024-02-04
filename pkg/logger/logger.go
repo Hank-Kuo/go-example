@@ -7,7 +7,7 @@ import (
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
 
-	"go-example/config"
+	"github.com/Hank-Kuo/go-example/config"
 )
 
 // Logger methods interface

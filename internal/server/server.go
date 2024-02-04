@@ -9,8 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 
-	"go-example/config"
-	"go-example/pkg/logger"
+	"github.com/Hank-Kuo/go-example/config"
+	"github.com/Hank-Kuo/go-example/pkg/logger"
 )
 
 type Server struct {
