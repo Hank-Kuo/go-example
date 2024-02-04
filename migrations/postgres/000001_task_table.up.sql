@@ -1,6 +1,5 @@
 DROP TABLE IF EXISTS task                CASCADE;
 
-
 CREATE TABLE IF NOT EXISTS task (
    id serial NOT NULL PRIMARY KEY,
    name VARCHAR (255) NOT NULL,
@@ -8,3 +7,4 @@ CREATE TABLE IF NOT EXISTS task (
    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    updated_at TIMESTAMP
 );
+
