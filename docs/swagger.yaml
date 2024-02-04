@@ -1,0 +1,89 @@
+definitions:
+  models.Task:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /task/:id:
+    get:
+      consumes:
+      - application/json
+      description: get task
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Task'
+      summary: get task
+      tags:
+      - Task
+  /tasks:
+    get:
+      consumes:
+      - application/json
+      description: get all tasks
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Task'
+      summary: get all tasks
+      tags:
+      - Task
+    post:
+      consumes:
+      - application/json
+      description: create new task
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Task'
+      summary: Create new task
+      tags:
+      - Task
+  /tasks/:id:
+    delete:
+      consumes:
+      - application/json
+      description: deletee task
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: delete task
+      tags:
+      - Task
+    put:
+      consumes:
+      - application/json
+      description: update task
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Task'
+      summary: update task
+      tags:
+      - Task
+swagger: "2.0"
