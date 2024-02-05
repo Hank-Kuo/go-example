@@ -36,7 +36,7 @@ definitions:
 info:
   contact: {}
 paths:
-  /task/:id:
+  /api/task/{id}:
     get:
       consumes:
       - application/json
@@ -66,7 +66,7 @@ paths:
       summary: get task
       tags:
       - Task
-  /tasks:
+  /api/tasks:
     get:
       consumes:
       - application/json
@@ -122,31 +122,7 @@ paths:
       summary: Create new task
       tags:
       - Task
-  /tasks/:id:
-    delete:
-      consumes:
-      - application/json
-      description: deletee task
-      parameters:
-      - description: Task ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/http_response.ResponseBody'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/http_response.ResponseBody'
-      summary: delete task
-      tags:
-      - Task
+  /api/tasks/{id}:
     put:
       consumes:
       - application/json
@@ -180,6 +156,31 @@ paths:
           schema:
             $ref: '#/definitions/http_response.ResponseBody'
       summary: update task
+      tags:
+      - Task
+  /tasks/:id:
+    delete:
+      consumes:
+      - application/json
+      description: deletee task
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http_response.ResponseBody'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http_response.ResponseBody'
+      summary: delete task
       tags:
       - Task
 swagger: "2.0"

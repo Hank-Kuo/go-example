@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/task/:id": {
+        "/api/task/{id}": {
             "get": {
                 "description": "get task",
                 "consumes": [
@@ -65,7 +65,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/tasks": {
+        "/api/tasks": {
             "get": {
                 "description": "get all tasks",
                 "consumes": [
@@ -159,7 +159,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/tasks/:id": {
+        "/api/tasks/{id}": {
             "put": {
                 "description": "update task",
                 "consumes": [
@@ -216,7 +216,9 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
+            }
+        },
+        "/tasks/:id": {
             "delete": {
                 "description": "deletee task",
                 "consumes": [

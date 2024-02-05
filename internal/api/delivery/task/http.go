@@ -41,7 +41,7 @@ func NewHttpHandler(e *gin.RouterGroup, taskSrv taskSrv.Service, logger logger.L
 // @Produce json
 // @Success 200 {object} http_response.ResponseBody{data=[]models.Task}
 // @Failure 500 {object} http_response.ResponseBody
-// @Router /tasks [get]
+// @Router /api/tasks [get]
 func (h *httpHandler) GetAll(c *gin.Context) {
 	ctx := c.Request.Context()
 	ctx, span := tracer.NewSpan(ctx, "TaskHttpHandler.GetAll", nil)
@@ -71,7 +71,7 @@ func (h *httpHandler) GetAll(c *gin.Context) {
 // @Param id path int true "Task ID"
 // @Success 200 {object} http_response.ResponseBody{data=models.Task}
 // @Failure 500 {object} http_response.ResponseBody
-// @Router /task/:id [get]
+// @Router /api/task/{id} [get]
 func (h *httpHandler) Get(c *gin.Context) {
 	ctx := c.Request.Context()
 	ctx, span := tracer.NewSpan(ctx, "TaskHttpHandler.Get", nil)
@@ -102,7 +102,7 @@ func (h *httpHandler) Get(c *gin.Context) {
 // @Param request body dto.TaskReqDto true "body params"
 // @Success 200 {object} http_response.ResponseBody{data=models.Task}
 // @Failure 500 {object} http_response.ResponseBody
-// @Router /tasks [post]
+// @Router /api/tasks [post]
 func (h *httpHandler) Create(c *gin.Context) {
 	ctx := c.Request.Context()
 	ctx, span := tracer.NewSpan(ctx, "TaskHttpHandler.Create", nil)
@@ -137,7 +137,7 @@ func (h *httpHandler) Create(c *gin.Context) {
 // @Param request body dto.TaskReqDto true "body params"
 // @Success 200 {object} http_response.ResponseBody{data=models.Task}
 // @Failure 500 {object} http_response.ResponseBody
-// @Router /tasks/:id [put]
+// @Router /api/tasks/{id} [put]
 func (h *httpHandler) Update(c *gin.Context) {
 	ctx := c.Request.Context()
 	ctx, span := tracer.NewSpan(ctx, "TaskHttpHandler.Create", nil)
@@ -174,7 +174,7 @@ func (h *httpHandler) Update(c *gin.Context) {
 // @Param id path int true "Task ID"
 // @Success 200 {object} http_response.ResponseBody
 // @Failure 500 {object} http_response.ResponseBody
-// @Router /tasks/:id [delete]
+// @Router /tasks/{id} [delete]
 func (h *httpHandler) Delete(c *gin.Context) {
 	ctx := c.Request.Context()
 	ctx, span := tracer.NewSpan(ctx, "TaskHttpHandler.Delete", nil)

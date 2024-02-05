@@ -4,7 +4,7 @@
         "contact": {}
     },
     "paths": {
-        "/task/:id": {
+        "/api/task/{id}": {
             "get": {
                 "description": "get task",
                 "consumes": [
@@ -54,7 +54,7 @@
                 }
             }
         },
-        "/tasks": {
+        "/api/tasks": {
             "get": {
                 "description": "get all tasks",
                 "consumes": [
@@ -148,7 +148,7 @@
                 }
             }
         },
-        "/tasks/:id": {
+        "/api/tasks/{id}": {
             "put": {
                 "description": "update task",
                 "consumes": [
@@ -205,7 +205,9 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/tasks/:id": {
             "delete": {
                 "description": "deletee task",
                 "consumes": [
