@@ -201,18 +201,22 @@ make run-api
 
 Swagger: http://localhost:9000/swagger/index.html
 
+![alt Swagger](./tmp/swagger.png)
+
 ## Monitor 
 ### Prometheus
 Metrics for monitoring server
 
 Host: http://localhost:9090
-[Prometheus](./tmp/prometheus.png)
+
+![alt Prometheus](./tmp/prometheus.png)
 
 ### Grafana
 Dashboard for visualizing metrics
 
 Host: http://localhost:3001
-[grafana](./tmp/grafana.png)
+
+![alt grafana](./tmp/grafana.png)
 
 ### Jaeger 
 Tracing service
