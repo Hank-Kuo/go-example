@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	log.Println("Starting chat-app server")
+	log.Println("Starting go-example server")
 	cfg, err := config.GetConf()
 
 	if err != nil {
