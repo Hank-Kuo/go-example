@@ -39,7 +39,8 @@ func NewHttpHandler(e *gin.RouterGroup, taskSrv taskSrv.Service, logger logger.L
 // @Tags Task
 // @Accept json
 // @Produce json
-// @Success 200 {object} models.Task
+// @Success 200 {object} http_response.ResponseBody{data=[]models.Task}
+// @Failure 500 {object} http_response.ResponseBody
 // @Router /tasks [get]
 func (h *httpHandler) GetAll(c *gin.Context) {
 	ctx := c.Request.Context()
@@ -67,7 +68,9 @@ func (h *httpHandler) GetAll(c *gin.Context) {
 // @Tags Task
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} http_response.ResponseBody{Data:models.Task}
+// @Param id path int true "Task ID"
+// @Success 200 {object} http_response.ResponseBody{data=models.Task}
+// @Failure 500 {object} http_response.ResponseBody
 // @Router /task/:id [get]
 func (h *httpHandler) Get(c *gin.Context) {
 	ctx := c.Request.Context()
@@ -96,7 +99,9 @@ func (h *httpHandler) Get(c *gin.Context) {
 // @Tags Task
 // @Accept  json
 // @Produce  json
-// @Success 201 {object} models.Task
+// @Param request body dto.TaskReqDto true "body params"
+// @Success 200 {object} http_response.ResponseBody{data=models.Task}
+// @Failure 500 {object} http_response.ResponseBody
 // @Router /tasks [post]
 func (h *httpHandler) Create(c *gin.Context) {
 	ctx := c.Request.Context()
@@ -128,7 +133,10 @@ func (h *httpHandler) Create(c *gin.Context) {
 // @Tags Task
 // @Accept  json
 // @Produce  json
-// @Success 201 {object} models.Task
+// @Param id path int true "Task ID"
+// @Param request body dto.TaskReqDto true "body params"
+// @Success 200 {object} http_response.ResponseBody{data=models.Task}
+// @Failure 500 {object} http_response.ResponseBody
 // @Router /tasks/:id [put]
 func (h *httpHandler) Update(c *gin.Context) {
 	ctx := c.Request.Context()
@@ -161,9 +169,11 @@ func (h *httpHandler) Update(c *gin.Context) {
 // @Summary delete task
 // @Description deletee task
 // @Tags Task
-// @Accept  json
-// @Produce  json
-// @Success 200
+// @Accept json
+// @Produce json
+// @Param id path int true "Task ID"
+// @Success 200 {object} http_response.ResponseBody
+// @Failure 500 {object} http_response.ResponseBody
 // @Router /tasks/:id [delete]
 func (h *httpHandler) Delete(c *gin.Context) {
 	ctx := c.Request.Context()

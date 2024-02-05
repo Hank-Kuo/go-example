@@ -1,4 +1,25 @@
 definitions:
+  dto.TaskReqDto:
+    properties:
+      name:
+        type: string
+      status:
+        maximum: 1
+        minimum: 0
+        type: integer
+    required:
+    - name
+    - status
+    type: object
+  http_response.ResponseBody:
+    properties:
+      data:
+        x-omitempty: true
+      message:
+        type: string
+      status:
+        type: string
+    type: object
   models.Task:
     properties:
       created_at:
@@ -20,13 +41,28 @@ paths:
       consumes:
       - application/json
       description: get task
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Task'
+            allOf:
+            - $ref: '#/definitions/http_response.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Task'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http_response.ResponseBody'
       summary: get task
       tags:
       - Task
@@ -41,7 +77,18 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Task'
+            allOf:
+            - $ref: '#/definitions/http_response.ResponseBody'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Task'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http_response.ResponseBody'
       summary: get all tasks
       tags:
       - Task
@@ -49,13 +96,29 @@ paths:
       consumes:
       - application/json
       description: create new task
+      parameters:
+      - description: body params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.TaskReqDto'
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
-            $ref: '#/definitions/models.Task'
+            allOf:
+            - $ref: '#/definitions/http_response.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Task'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http_response.ResponseBody'
       summary: Create new task
       tags:
       - Task
@@ -64,11 +127,23 @@ paths:
       consumes:
       - application/json
       description: deletee task
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/http_response.ResponseBody'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http_response.ResponseBody'
       summary: delete task
       tags:
       - Task
@@ -76,13 +151,34 @@ paths:
       consumes:
       - application/json
       description: update task
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: body params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.TaskReqDto'
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
-            $ref: '#/definitions/models.Task'
+            allOf:
+            - $ref: '#/definitions/http_response.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Task'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http_response.ResponseBody'
       summary: update task
       tags:
       - Task

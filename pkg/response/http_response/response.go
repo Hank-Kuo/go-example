@@ -15,7 +15,7 @@ type response struct {
 type ResponseBody struct {
 	Status  string      `json:"status"`
 	Message string      `json:"message"`
-	Data    interface{} `json:"data,omitempty"`
+	Data    interface{} `json:"data,omitempty" extensions:"x-omitempty"`
 }
 
 func OK(statusCode int, message string, data interface{}) *response {

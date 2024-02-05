@@ -5,10 +5,30 @@ API provides Get all tasks, Get specific task, create task, update task, delete 
 
 
 ## What 
+### Library 
+- gin
+- sqlx
+- viper
+- testify
+- swaggo
+- jaeger
+- go-sqlmock
+- mock
+- mockgen
+- go-migrate
+
+### Infra
+- Docker / docker-compose
+- Postgesql
+- prometheus
+- node_exporter
+- grafana
+- jaeger
+
 ### API Design
 Following the api detail below:
 - Get all task api:
-    - path: /api/tasks?cursor=""
+    - path: /api/tasks?cursor=${cursor}&limit=${limit}
     - method: "GET"
     - description: get all tasks from task table
     - request: 
@@ -19,7 +39,10 @@ Following the api detail below:
         {
             "status": "success",
             "message": "get tasks successfully",
-            "data": [{"id":1,"name":"task1","status":0,"created_at":"2024-02-03T05:39:50.778131Z","updated_at":"2024-02-03T05:39:50.778131Z"}]
+            "data": {
+                "tasks":[{"id":1,"name":"task1","status":0,"created_at":"2024-02-03T05:39:50.778131Z","updated_at":"2024-02-03T05:39:50.778131Z"}],
+                "next_cursor": "",
+            }
         }   
         ```
 - Get task api:
@@ -52,7 +75,8 @@ Following the api detail below:
         ```json
         {
             "status": "success",
-            "message": "create task successfully"
+            "message": "create task successfully",
+            "data": {"id":1,"name":"task1","status":0,"created_at":"2024-02-03T05:39:50.778131Z","updated_at":"2024-02-03T05:39:50.778131Z"}
         }   
         ```
 - Update task api:
@@ -70,7 +94,8 @@ Following the api detail below:
         ```json
         {
             "status": "success",
-            "message": "update task successfully"
+            "message": "update task successfully",
+            "data": {"id":1,"name":"task1","status":0,"created_at":"2024-02-03T05:39:50.778131Z","updated_at":"2024-02-03T05:39:50.778131Z"}
         }   
         ```
 - Delete task api:
@@ -88,12 +113,15 @@ Following the api detail below:
         }   
         ```
 
-### Error handling 
-
 
 ### Database design
-Use migrate to migrate database data and in
+Use migrate to migrate database data
 
+| id | name    | status | created_at             | updated_at             |
+|----|---------|--------|------------------------|------------------------|
+| 1  | Task 1  | 0      | 2022-01-30T12:00:00Z   | 2022-01-30T12:00:00Z   |
+| 2  | Task 2  | 1      | 2022-01-31T12:00:00Z   | 2022-01-31T12:00:00Z   |
+| 3  | Task 3  | 0      | 2022-02-01T12:00:00Z   | 2022-02-01T12:00:00Z   |
 
 ## Usage
 - Service entrypoint: cmd/api/main.go
@@ -110,10 +138,10 @@ HOST="localhost"
 PORT="9000"
 DEBUG=false
 
-POSTGRES_HOST="localhost"
-POSTGRES_USER="postgres"
-POSTGRES_PASSWORD="postgres"
-POSTGRES_DATABASE="db"
+POSTGRES_HOST=localhost
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DATABASE=db
 
 JAEGER_HOST= "http://localhost:14268/api/traces"
 ```
@@ -155,9 +183,38 @@ make linter
 Unit test
 ```sh
 make test
+# make mock -> generate mock file
 ```
+
+Docker build
+```sh
+make docker-build
+docker run -d -p 9000:9000 go-example:deploy
+```
+### Run
+```sh
+go mod tidy
+make docker-up 
+make migrate-up
+make run-api
+```
+
+Swagger: http://localhost:9000/swagger/index.html
 
 ## Monitor 
 ### Prometheus
+Metrics for monitoring server
+
+Host: http://localhost:9090
+[Prometheus](./tmp/prometheus.png)
+
 ### Grafana
+Dashboard for visualizing metrics
+
+Host: http://localhost:3001
+[grafana](./tmp/grafana.png)
+
 ### Jaeger 
+Tracing service
+
+Host: http://localhost:16686
