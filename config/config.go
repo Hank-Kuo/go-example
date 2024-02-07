@@ -36,6 +36,7 @@ type DatabaseConfig struct {
 	Port            int    `mapstructure:"port"`
 	MaxConns        int    `mapstructure:"maxConns"`
 	MaxLiftimeConns int    `mapstructure:"maxLiftimeConns"`
+	SSL             bool   `mapstructure:"ssl"`
 }
 
 type LoggerConfig struct {

@@ -142,6 +142,7 @@ POSTGRES_HOST=localhost
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 POSTGRES_DATABASE=db
+SSL_MODE=true
 
 JAEGER_HOST= "http://localhost:14268/api/traces"
 ```

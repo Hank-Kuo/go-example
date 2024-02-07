@@ -35,6 +35,9 @@ func connectMySQL(cfg *config.DatabaseConfig) (*sqlx.DB, error) {
 }
 
 func connectPostgres(cfg *config.DatabaseConfig) (*sqlx.DB, error) {
-	setting := fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=disable", cfg.Username, cfg.Password, cfg.Host, cfg.Port, cfg.Db)
+	setting := fmt.Sprintf("postgres://%s:%s@%s:%d/%s", cfg.Username, cfg.Password, cfg.Host, cfg.Port, cfg.Db)
+	if !cfg.SSL {
+		setting += "?sslmode=disable"
+	}
 	return sqlx.Open("postgres", setting)
 }

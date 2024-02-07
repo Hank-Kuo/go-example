@@ -27,6 +27,7 @@ func TestGetConf(t *testing.T) {
 		os.Setenv("POSTGRES_USER", "testpostgres")
 		os.Setenv("POSTGRES_PASSWORD", "testpostgres")
 		os.Setenv("POSTGRES_DATABASE", "testdb")
+		os.Setenv("SSL_MODE", "true")
 		os.Setenv("JAEGER_HOST", "testhost:14268/api/traces")
 
 		cfg, err := GetConf()
