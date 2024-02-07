@@ -34,7 +34,7 @@ logger:
 jaeger:
   host: ${JAEGER_HOST}
   port: 14268
-  serviceName: chat-app
+  serviceName: go-example
   logSpans: true
 
 metric:
