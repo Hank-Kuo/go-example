@@ -1,6 +1,20 @@
 version: "3.8"
 
-services:     
+services: 
+    app:
+      build: 
+        context: .
+        dockerfile: ./docker/Dockerfile
+      ports:
+        - 9000:9000
+      restart: always
+      depends_on:
+        - postgesql
+        - prometheus
+        - node_exporter
+        - grafana
+      networks:
+        - web_api
     postgesql:
       container_name: go-example-postgres
       image: postgres:12-alpine
@@ -25,7 +39,7 @@ services:
       extra_hosts:
         - "host.docker.internal:host-gateway"
       volumes:
-        - ./config/monitoring/prometheus.local.yml:/etc/prometheus/prometheus.yml:Z
+        - ./config/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:Z
       command:
         - '--config.file=/etc/prometheus/prometheus.yml'
         - '--storage.tsdb.path=/prometheus'

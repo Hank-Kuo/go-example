@@ -3,6 +3,9 @@
 Build up web restful api for task.
 API provides Get all tasks, Get specific task, create task, update task, delete task. Using Postgres as relation database to store task data.
 
+Deploy to: https://go-task-example.onrender.com/api/tasks
+But this server only can use get method function, because the server don't provide jaeger server.
+
 
 ## What 
 ### Library 
@@ -193,16 +196,33 @@ make docker-build
 docker run -d -p 9000:9000 go-example:deploy
 ```
 ### Run
+Run in local for development
 ```sh
 go mod tidy
 make docker-up 
 make migrate-up
 make run-api
 ```
-
 Swagger: http://localhost:9000/swagger/index.html
 
 ![alt Swagger](./tmp/swagger.png)
+
+Run in local using docker-compose
+```sh
+HOST="0.0.0.0"
+PORT="9000"
+DEBUG=true
+POSTGRES_HOST=postgesql
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD= postgres
+POSTGRES_DATABASE=db
+SSL_MODE=false
+JAEGER_HOST= "http://jaeger:14268/api/traces"
+```
+
+```sh
+make docker-up-deploy
+```
 
 ## Monitor 
 ### Prometheus

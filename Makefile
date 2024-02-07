@@ -10,6 +10,9 @@ docker-up:
 docker-down:
 	docker-compose down
 
+docker-up-deploy:
+	docker-compose -f docker-compose.deploy.yaml up -d
+
 migrate-create:
 	migrate create -ext sql -dir migrations/postgres -seq ${TABLE_NAME}
 migrate-up:	
